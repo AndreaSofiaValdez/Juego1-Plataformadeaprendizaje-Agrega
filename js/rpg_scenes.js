@@ -2654,9 +2654,27 @@ Scene_Gameover.prototype.start = function() {
 
 Scene_Gameover.prototype.update = function() {
     if (this.isActive() && !this.isBusy() && this.isTriggered()) {
-        this.gotoTitle();
+    this.sendGameOverMessage();
+    SceneManager.goto(Scene_Title);
     }
+
     Scene_Base.prototype.update.call(this);
+};
+    
+    Scene_Gameover.prototype.sendGameOverMessage = function() {
+    var message = {
+    type: 'GAME_OVER',
+    message: 'Juego terminado',
+    timestamp: Date.now()
+    };
+    
+    
+    if (window.parent && window.parent !== window) {
+        window.parent.postMessage(message, '*');
+    }
+    
+    console.log('Mensaje de fin de juego enviado:', message);
+
 };
 
 Scene_Gameover.prototype.stop = function() {
@@ -2685,20 +2703,6 @@ Scene_Gameover.prototype.isTriggered = function() {
     return Input.isTriggered('ok') || TouchInput.isTriggered();
 };
 
-
-Scene_Gameover.prototype.sendGameOverMessage = function() {
-    var message = {
-        type: 'GAME_OVER',
-        message: 'Juego terminado',
-        timestamp: Date.now()
-    };
-
-    if (window.parent && window.parent !== window) {
-        window.parent.postMessage(message, '*');
-    }
-
-    console.log('Mensaje de fin de juego enviado:', message);
-};
 
 Scene_Gameover.prototype.gotoTitle = function() {
     SceneManager.goto(Scene_Title);
