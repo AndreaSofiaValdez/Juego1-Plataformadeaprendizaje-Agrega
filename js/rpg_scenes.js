@@ -2644,6 +2644,7 @@ Scene_Gameover.prototype.create = function() {
     Scene_Base.prototype.create.call(this);
     this.playGameoverMusic();
     this.createBackground();
+    
 };
 
 Scene_Gameover.prototype.start = function() {
@@ -2684,6 +2685,17 @@ Scene_Gameover.prototype.isTriggered = function() {
     return Input.isTriggered('ok') || TouchInput.isTriggered();
 };
 
-Scene_Gameover.prototype.gotoTitle = function() {
-    SceneManager.goto(Scene_Title);
+
+Scene_Gameover.prototype.sendGameOverMessage = function() {
+    var message = {
+        type: 'GAME_OVER',
+        message: 'Juego terminado',
+        timestamp: Date.now()
+    };
+
+    if (window.parent && window.parent !== window) {
+        window.parent.postMessage(message, '*');
+    }
+
+    console.log('Mensaje de fin de juego enviado:', message);
 };
