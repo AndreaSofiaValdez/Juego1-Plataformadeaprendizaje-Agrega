@@ -2656,16 +2656,8 @@ Scene_Gameover.prototype.start = function() {
     this.sendGameOverMessage();
 };
 
-
-Scene_Gameover.prototype.update = function() {
-    if (this.isActive() && !this.isBusy() && this.isTriggered()) {
-        SceneManager.goto(Scene_Title);
-    }
-    Scene_Base.prototype.update.call(this);
-};
-
-    //CAMBIO AQUI//NUEVA FUNCION PARA ENVIAR MENSAJE AL COMPONENTE DE LA APLICACION WEB
-    Scene_Gameover.prototype.sendGameOverMessage = function() {
+ //CAMBIO AQUI//NUEVA FUNCION PARA ENVIAR MENSAJE AL COMPONENTE DE LA APLICACION WEB
+ Scene_Gameover.prototype.sendGameOverMessage = function() {
     var message = {
     type: 'GAME_OVER',
     message: 'Juego terminado',
@@ -2680,6 +2672,15 @@ Scene_Gameover.prototype.update = function() {
     //console.log('Mensaje de fin de juego enviado:', message);
 
 };
+
+Scene_Gameover.prototype.update = function() {
+    if (this.isActive() && !this.isBusy() && this.isTriggered()) {
+        SceneManager.goto(Scene_Title);
+    }
+    Scene_Base.prototype.update.call(this);
+};
+
+   
 
 Scene_Gameover.prototype.stop = function() {
     Scene_Base.prototype.stop.call(this);
