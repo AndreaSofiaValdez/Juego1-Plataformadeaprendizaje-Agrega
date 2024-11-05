@@ -2647,20 +2647,24 @@ Scene_Gameover.prototype.create = function() {
     
 };
 
+//CAMBIO AQUI//
 Scene_Gameover.prototype.start = function() {
     Scene_Base.prototype.start.call(this);
     this.startFadeIn(this.slowFadeSpeed(), false);
+
+    // Enviar mensaje de "Game Over" al iframe inmediatamente
+    this.sendGameOverMessage();
 };
+
 
 Scene_Gameover.prototype.update = function() {
     if (this.isActive() && !this.isBusy() && this.isTriggered()) {
-    this.sendGameOverMessage();
-    SceneManager.goto(Scene_Title);
+        SceneManager.goto(Scene_Title);
     }
-
     Scene_Base.prototype.update.call(this);
 };
-    
+
+    //CAMBIO AQUI//NUEVA FUNCION PARA ENVIAR MENSAJE AL COMPONENTE DE LA APLICACION WEB
     Scene_Gameover.prototype.sendGameOverMessage = function() {
     var message = {
     type: 'GAME_OVER',
