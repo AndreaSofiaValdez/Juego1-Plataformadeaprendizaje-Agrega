@@ -3792,8 +3792,12 @@ TouchInput._onMouseUp = function(event) {
 TouchInput._onWheel = function(event) {
     this._events.wheelX += event.deltaX;
     this._events.wheelY += event.deltaY;
+    
+    // Evitar el comportamiento predeterminado del evento
     event.preventDefault();
 };
+
+
 
 /**
  * @static
@@ -3829,13 +3833,21 @@ TouchInput._onTouchStart = function(event) {
  * @private
  */
 TouchInput._onTouchMove = function(event) {
+    // Evitar el comportamiento predeterminado del evento
+    event.preventDefault();
+    
     for (var i = 0; i < event.changedTouches.length; i++) {
         var touch = event.changedTouches[i];
         var x = Graphics.pageToCanvasX(touch.pageX);
         var y = Graphics.pageToCanvasY(touch.pageY);
+        
         this._onMove(x, y);
     }
 };
+
+
+document.addEventListener('touchmove', TouchInput._onTouchMove.bind(TouchInput), { passive: false });
+document.addEventListener('wheel', this._onWheel.bind(this), { passive: false });
 
 /**
  * @static
