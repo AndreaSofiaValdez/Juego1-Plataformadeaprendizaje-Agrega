@@ -2699,3 +2699,7 @@ Scene_Gameover.prototype.sendGameOverMessage = function() {
 
     console.log('Mensaje de fin de juego enviado:', message);
 };
+
+Scene_Gameover.prototype.gotoTitle = function() {
+    SceneManager.goto(Scene_Title);
+};
