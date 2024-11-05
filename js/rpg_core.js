@@ -3789,12 +3789,15 @@ TouchInput._onMouseUp = function(event) {
  * @param {WheelEvent} event
  * @private
  */
+
 TouchInput._onWheel = function(event) {
+    // Evitar el comportamiento predeterminado del evento
+    event.preventDefault();
+    
     this._events.wheelX += event.deltaX;
     this._events.wheelY += event.deltaY;
     
-    // Evitar el comportamiento predeterminado del evento
-    event.preventDefault();
+    
 };
 
 
@@ -3832,22 +3835,27 @@ TouchInput._onTouchStart = function(event) {
  * @param {TouchEvent} event
  * @private
  */
+// Método para manejar el movimiento táctil
 TouchInput._onTouchMove = function(event) {
     // Evitar el comportamiento predeterminado del evento
     event.preventDefault();
-    
+
+    // Iterar sobre los toques que han cambiado
     for (var i = 0; i < event.changedTouches.length; i++) {
         var touch = event.changedTouches[i];
+
+        // Obtener las coordenadas del toque en el canvas
         var x = Graphics.pageToCanvasX(touch.pageX);
         var y = Graphics.pageToCanvasY(touch.pageY);
-        
+
+        // Llamar a la función que maneja el movimiento con las coordenadas
         this._onMove(x, y);
     }
 };
 
 
 document.addEventListener('touchmove', TouchInput._onTouchMove.bind(TouchInput), { passive: false });
-document.addEventListener('wheel', this._onWheel.bind(this), { passive: false });
+document.addEventListener('wheel', TouchInput._onWheel.bind(TouchInput), { passive: false });
 
 /**
  * @static
